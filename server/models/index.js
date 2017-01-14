@@ -26,7 +26,7 @@ module.exports = {
         if (err) {
           throw err;
         }
-      console.log('Last insert ID:', res.insertId);
+      // console.log('Last insert ID:', res.insertId);
       });
     }
   }
