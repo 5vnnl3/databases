@@ -1,42 +1,38 @@
 var models = require('../models');
-var express = require('express');
-var app = express();
+// var express = require('express');
+// var app = express();
 var cors = require('cors');
-
-app.use(function (req, res, next) {
-  // Website you wish to allow to connect
-  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:8888');
-  // Request methods you wish to allow
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-  // Request headers you wish to allow
-  res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
-  // Set to true if you need the website to include cookies in the requests sent
-  // to the API (e.g. in case you use sessions)
-  res.setHeader('Access-Control-Allow-Credentials', true);
-  // Pass to next layer of middleware
-  next();
-});
+var headers = {
+  'access-control-allow-origin': '*',
+  'access-control-allow-methods': 'GET, POST, PUT, DELETE, OPTIONS',
+  'access-control-allow-headers': 'content-type, accept',
+  'access-control-max-age': 10, // Seconds.
+  'Content-Type': 'application/json'
+};
 
 module.exports = {
   messages: {
-    get: app.get('/', function(req, res) {
-      console.log('LOOOOOK HEREEEE get', req);
-      res.send('hello world');
-    }),
-    // get: function (req, res) {}, // a function which handles a get request for all messages
-    post: function (req, res) {} // a function which handles posting a message to the database
+    get: function(req, res) {
+      // models.messsages.get();
+      var data = models.messages.get();
+      console.log(data);
+      res.end('hello world');
+    },
+// a function which handles a get request for all messages
+    post: function (req, res) {
+      res.end('hello world');
+    } // a function which handles posting a message to the database
   },
 
   users: {
     // Ditto as above
     get: function (req, res) {
-
-
+      res.end('hello world');
       // use model.get
     },
-    post: function (req, res) {}
+    post: function (req, res) {
+      console.log(req.body);
+      res.end('hello world');
+    }
   }
 };
-
-// create user post/get requests
-

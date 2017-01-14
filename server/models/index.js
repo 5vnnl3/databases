@@ -6,8 +6,7 @@ module.exports = {
   messages: {
     get: function () {}, // a function which produces all the messages
     post: function (message) {
-      var user = message;
-      db.query('INSERT INTO users SET ?', user, function(err, res) {
+      db.query('INSERT INTO users SET ?', message, function(err, res) {
         if (err) {
           throw err;
         }
@@ -22,13 +21,12 @@ module.exports = {
 
       // sql queries
     },
-    post: function (name) {
-      var user = name;
+    post: function (user) {
       db.query('INSERT INTO users SET ?', user, function(err, res) {
         if (err) {
           throw err;
         }
-        console.log('Last insert ID:', res.insertId);
+      console.log('Last insert ID:', res.insertId);
       });
     }
   }

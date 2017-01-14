@@ -6,10 +6,9 @@ var mysql = require('mysql');
 
 // First you need to create a connection to the db
 var db = mysql.createConnection({
-  host: 'localhost',
+  // host: 'localhost',
   user: 'root',
   database: 'chat'
-  // password: "jay"
 });
 
 db.connect(function(err) {
@@ -20,21 +19,13 @@ db.connect(function(err) {
   console.log('Connection established');
 });
 
-db.query('SELECT * FROM messages', function(err, rows) {
+db.query('SELECT * FROM users', function(err, rows) {
   if (err) {
     throw err;
   }
-  console.log('Data received from Db:\n');
+  console.log('Data received from users:\n');
   console.log(rows);
 });
-
-// var user = {username: 'Kevin'};
-// db.query('INSERT INTO users SET ?', user, function(err, res) {
-//   if (err) {
-//     throw err;
-//   }
-//   console.log('Last insert ID:', res.insertId);
-// });
 
 db.end(function(err) {
   // The connection is terminated gracefully
