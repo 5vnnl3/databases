@@ -1,35 +1,40 @@
-var db = require('../db'); // gives you access to mysql schema
+var db = require('../db'); 
 var express = require('express');
 var app = express();
 
 module.exports = {
   messages: {
-    get: function () {}, // a function which produces all the messages
-    post: function (message) {
-      var user = message;
-      db.query('INSERT INTO users SET ?', user, function(err, res) {
+    get: function () {
+      db.query('SELECT * FROM messages', function(err, rows) {
         if (err) {
           throw err;
         }
-        console.log('Last insert ID:', res.insertId);
+        console.log('Data received from messages:\n');
+        console.log(rows);
+        var messageGet = rows;
       });
+      return messageGet;
+    }, // a function which produces all the messages
+    post: function (message) {
+      db.addMessage(message);
     } // a function which can be used to insert a message into the database
   },
 
   users: {
-    // Ditto as above.
     get: function () {
-
-      // sql queries
-    },
-    post: function (name) {
-      var user = name;
-      db.query('INSERT INTO users SET ?', user, function(err, res) {
+      db.query('SELECT * FROM users', function(err, rows) {
         if (err) {
+          console.log('get error');
           throw err;
         }
-        console.log('Last insert ID:', res.insertId);
+        console.log('Data received from users:\n');
+        console.log(rows);
+        var userGet = rows;
       });
+      return userGet;
+    },
+    post: function (user) {
+      db.addUser(user);
     }
   }
 };

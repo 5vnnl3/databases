@@ -5,41 +5,77 @@ var mysql = require('mysql');
 // and to the database "chat".
 
 // First you need to create a connection to the db
-var db = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  database: 'chat'
-  // password: "jay"
-});
+module.exports.test = function() {console.log('TESSSTTTTT!');};
+module.exports.addUser = function(user) {
+  var db = mysql.createConnection({
+    host: 'localhost',
+    user: 'root',
+    database: 'chat'
+    // password: "jay"
+  });
+  db.connect(function(err) {
+    if (err) {
+      console.log('Error connecting to Db');
+      return;
+    }
+    console.log('Connection established');
+  });  
+  // db.query('SELECT * FROM messages', function(err, rows) {
+  //   if (err) {
+  //     throw err;
+  //   }
+  //   console.log('Data received from Db:\n');
+  //   console.log(rows);
+  // });
 
-db.connect(function(err) {
-  if (err) {
-    console.log('Error connecting to Db');
-    return;
-  }
-  console.log('Connection established');
-});
+  console.log('connected and user data in models', user);
+  db.query('INSERT INTO users SET ?', user, function(err, res) {
+    if (err) {
+      console.log('post', err);
+      throw err;
+    }
+    console.log('Last insert ID:', res.insertId);
+  });
+};
 
-db.query('SELECT * FROM messages', function(err, rows) {
-  if (err) {
-    throw err;
-  }
-  console.log('Data received from Db:\n');
-  console.log(rows);
-});
+module.exports.addMessage = function(message) {
+  var db = mysql.createConnection({
+    host: 'localhost',
+    user: 'root',
+    database: 'chat'
+    // password: "jay"
+  });
+  db.connect(function(err) {
+    if (err) {
+      console.log('Error connecting to Db');
+      return;
+    }
+    console.log('Connection established');
+  });  
+  // db.query('SELECT * FROM messages', function(err, rows) {
+  //   if (err) {
+  //     throw err;
+  //   }
+  //   console.log('Data received from Db:\n');
+  //   console.log(rows);
+  // });
+  db.query('INSERT INTO messages SET ?', message, function(err, res) {
+    if (err) {
+      console.log('post', err);
+      throw err;
+    }
+    console.log('Last insert ID:', res.insertId);
+  });
+};
 
-// var user = {username: 'Kevin'};
-// db.query('INSERT INTO users SET ?', user, function(err, res) {
+
+// db.end(function(err) {
 //   if (err) {
-//     throw err;
+//     console.log(err);
 //   }
-//   console.log('Last insert ID:', res.insertId);
+//   // The connection is terminated gracefully
+//   // Ensures all previously enqueued queries are still
+//   // before sending a COM_QUIT packet to the MySQL server.
 // });
 
-db.end(function(err) {
-  // The connection is terminated gracefully
-  // Ensures all previously enqueued queries are still
-  // before sending a COM_QUIT packet to the MySQL server.
-});
-
-module.exports = db;
+// module.exports = db;
