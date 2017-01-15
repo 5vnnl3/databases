@@ -1,40 +1,36 @@
 var db = require('../db'); 
-var express = require('express');
-var app = express();
 
 module.exports = {
   messages: {
-    get: function () {
-      db.query('SELECT * FROM messages', function(err, rows) {
-        if (err) {
-          throw err;
-        }
-        console.log('Data received from messages:\n');
-        console.log(rows);
-        var messageGet = rows;
+    get: function (callback) {
+      queryStr = 'select messages.id, messages.text, messages.roomname, users.username \
+                  from messages left outer join users on (messages.userid = users.id) \
+                  order by messages.id desc';
+      db.query(queryStr, function(err, result) {
+        callback(err, result);
       });
-      return messageGet;
     }, // a function which produces all the messages
-    post: function (message) {
-      db.addMessage(message);
+    post: function (params, callback) {
+      queryStr = 'insert into messages(text, userid, roomname) \
+                  value (?, (select id from users where username = ? limit 1), ?)';
+      db.query(queryStr, params, function(err, result) {
+        callback(err, result);
+      });
     } // a function which can be used to insert a message into the database
   },
 
   users: {
-    get: function () {
-      db.query('SELECT * FROM users', function(err, rows) {
-        if (err) {
-          console.log('get error');
-          throw err;
-        }
-        console.log('Data received from users:\n');
-        console.log(rows);
-        var userGet = rows;
+    get: function (callback) {
+      var queryStr = 'select * from users';
+      db.query(queryStr, function(err, result) {
+        callback(err, result);
       });
-      return userGet;
     },
-    post: function (user) {
-      db.addUser(user);
+    post: function (params, callback) {
+      var queryStr = 'insert into users(username) value (?)';
+      db.query(queryStr, params, function(err, result) {
+        callback(err, result);
+      });
     }
   }
 };

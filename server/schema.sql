@@ -1,34 +1,33 @@
 -- CREATE DATABASE chat;
-SHOW DATABASES;
+-- SHOW DATABASES;
 USE chat;
 
 drop table if exists messages;
 
 CREATE TABLE messages (
-message_id INT AUTO_INCREMENT PRIMARY KEY,
-object_id VARCHAR(50) UNIQUE,
-message_text VARCHAR(500),
-roomname VARCHAR(50),
-created_at VARCHAR(50)
+  id int NOT NULL AUTO_INCREMENT,
+  userid int NOT NULL,
+  text VARCHAR(200) NOT NULL,
+  roomname VARCHAR(40) NOT NULL,
+  PRIMARY KEY (ID)
 );
--- U_Id int,
--- FOREIGN KEY (U_Id) REFERENCES users(user_id)
 
 drop table if exists users;
 
 CREATE TABLE users (
-user_id INT AUTO_INCREMENT PRIMARY KEY,
-username VARCHAR(50) UNIQUE
+  id INT NOT NULL AUTO_INCREMENT,
+  username VARCHAR(40) NOT NULL,
+  PRIMARY KEY(ID)
 );
 
 drop table if exists rooms;
 
-CREATE TABLE rooms (
-room_id INT AUTO_INCREMENT PRIMARY KEY,
-roomname VARCHAR(50) UNIQUE
-);
+-- CREATE TABLE rooms (
+-- room_id INT AUTO_INCREMENT PRIMARY KEY,
+-- roomname VARCHAR(50) UNIQUE
+-- );
 
-SHOW TABLES;
+-- SHOW TABLES;
 
 /* Create other tables and define schemas for them here! */
 
